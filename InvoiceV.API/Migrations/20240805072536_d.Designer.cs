@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceV.API.Migrations
 {
     [DbContext(typeof(InvoiceVerContext))]
-    [Migration("20240723094713_h")]
-    partial class h
+    [Migration("20240805072536_d")]
+    partial class d
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,9 @@ namespace InvoiceV.API.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ClientName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")

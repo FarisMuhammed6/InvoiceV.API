@@ -36,6 +36,9 @@ namespace InvoiceV.API.Migrations
                     b.Property<string>("ClientName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ContractName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InvoiceV.API.Migrations
 {
     /// <inheritdoc />
-    public partial class h : Migration
+    public partial class d : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,8 @@ namespace InvoiceV.API.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ClientName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ClientName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContractName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

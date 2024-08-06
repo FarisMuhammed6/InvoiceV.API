@@ -7,6 +7,7 @@
         public DateTime EndDate { get; set; }
         public decimal Amount { get; set; }
         public string? ClientName { get; set; }
+        public string? ContractName { get; set; }
 
 
     }

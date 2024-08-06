@@ -18,7 +18,7 @@ namespace YourNamespace.Controllers
             _dbcontext = dbcontext;
         }
         [HttpPost("contract")]
-        public async Task<ActionResult> UploadContractImage(IFormFile file)
+        public async Task<ActionResult> UploadContractImage(IFormFile file, string ContractName)
         {
             if (file == null || file.Length == 0)
             {
@@ -36,6 +36,7 @@ namespace YourNamespace.Controllers
 
             var contract = new Contract
             {
+                ContractName = ContractName,
                 ClientName = clientnNAME,
                 StartDate = startDate,
                 EndDate = endDate,
@@ -62,11 +63,8 @@ namespace YourNamespace.Controllers
             var datePattern = @"\b\d{1,2}/\d{1,2}/\d{4}\b";
             var matches = Regex.Matches(text, datePattern);
 
-            // Check if there are at least two dates
             if (matches.Count >= 2)
             {
-                // Dates are: [start date, ...other dates..., end date]
-                // Assuming start date is the first occurrence and end date is the last occurrence
                 if (DateTime.TryParse(matches[0].Value, out DateTime startDate) &&
                     DateTime.TryParse(matches[matches.Count - 1].Value, out DateTime endDate))
                 {

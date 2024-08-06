@@ -18,7 +18,7 @@ namespace InvoiceV.API.Controllers
             _dbcontext = dbcontext;
         }
         [HttpPost("invoice")]
-        public async Task<ActionResult> UploadInvoiceImage(IFormFile file)
+        public async Task<ActionResult> UploadInvoiceImage(IFormFile file, string contractName)
         {
             if (file == null || file.Length == 0)
             {
@@ -41,7 +41,7 @@ namespace InvoiceV.API.Controllers
                 ClientName = clientName,
                 InvoiceDate = invoiceDate,
                 Amount = amount,
-                IsValid = ValidateInvoice(clientName, invoiceDate, amount)
+                IsValid = ValidateInvoice(clientName, invoiceDate, amount, contractName)
             };
 
             _dbcontext.Invoices.Add(invoice);
@@ -62,7 +62,6 @@ namespace InvoiceV.API.Controllers
         {
             var datePattern = @"\b\d{1,2}/\d{1,2}/\d{4}\b";
             var match = Regex.Match(text, datePattern);
-
             if (match.Success)
             {
                 if (DateTime.TryParse(match.Value, out DateTime date))
@@ -75,9 +74,7 @@ namespace InvoiceV.API.Controllers
         private decimal ExtractAmountFromText(string text)
         {
             var amountPattern = @"(?:total amount due|amount|cost|price|fee|charge|payment).*?(\$?\d+(\.\d{1,2})?)";
-
             var match = Regex.Match(text, amountPattern, RegexOptions.IgnoreCase);
-
             if (match.Success)
             {
                 var amountString = match.Groups[1].Value;
@@ -90,14 +87,14 @@ namespace InvoiceV.API.Controllers
             }
             throw new Exception("Total amount not found or invalid amount format.");
         }
-        private bool ValidateInvoice(string clientName, DateTime invoiceDate, decimal amount)
+        private bool ValidateInvoice(string clientName, DateTime invoiceDate, decimal amount, string contractName)
         {
             var contract = _dbcontext.contracts
-                .FirstOrDefault(c => c.ClientName == clientName &&
+                .FirstOrDefault(c => /*c.ClientName == clientName &&
                                      c.StartDate <= invoiceDate &&
-                                     c.EndDate >= invoiceDate &&
+                                     c.EndDate >= invoiceDate &&*/
+                                     c.ContractName == contractName &&
                                      c.Amount >= amount);
-
             return contract != null;
         }
     }
